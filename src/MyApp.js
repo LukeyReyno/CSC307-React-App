@@ -1,31 +1,38 @@
-import React from 'react'
-import Table from './Table'
+import React, {useState} from 'react';
+import Table from './Table';
 
-const characters = [
-    {
-      name: 'Charlie',
-      job: 'Janitor',
-    },
-    {
-      name: 'Mac',
-      job: 'Bouncer',
-    },
-    {
-      name: 'Dee',
-      job: 'Aspring actress',
-    },
-    {
-      name: 'Jeff',
-      job: 'Undercover Cop',
-    },
-];
+function MyApp() {
+    const [characters, setCharacters] = useState([
+        {
+            name: 'Charlie',
+            job: 'Janitor',
+        },
+        {
+            name: 'Bob',
+            job: 'Dancer',
+        },
+        {
+            name: 'Michael',
+            job: 'Regional Manager',
+        },
+        {
+            name: 'Ryan',
+            job: 'Temp',
+        },
+    ]);  
 
-function MyApp() { 
-    return ( 
-    <div className="container">
-        <Table characterData={characters} />
-    </div>
-    );  
-}   
+    function removeOneCharacter (index) {
+    const updated = characters.filter((character, i) => {
+        return i !== index
+        });
+        setCharacters(updated);
+    }
+
+    return (
+        <div className="container">
+            <Table characterData={characters} removeCharacter={removeOneCharacter} />
+        </div>
+    );
+}
 
 export default MyApp;
