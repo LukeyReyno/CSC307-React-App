@@ -13,18 +13,12 @@ function MyApp() {
             });
     }, [] );
 
-    function removeOneCharacter (index) {
+    function removeOneCharacter(index, id) {
         const updated = characters.filter((character, i) => {
             return i !== index
         });
         setCharacters(updated);
-    }
-
-    function updateList(person) {
-        makePostCall(person).then( result => {
-            if (result && result.status === 201)
-                setCharacters([...characters, result.data]);
-        });
+        axios.delete(`http://localhost:5000/users/${id}`)
     }
 
     async function fetchAll(){
@@ -37,6 +31,13 @@ function MyApp() {
            console.log(error);
            return false;
         }
+    }
+
+    function updateList(person) {
+        makePostCall(person).then( result => {
+            if (result && result.status === 201)
+                setCharacters([...characters, result.data]);
+        });
     }
 
     async function makePostCall(person){

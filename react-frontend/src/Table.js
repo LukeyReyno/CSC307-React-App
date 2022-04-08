@@ -21,7 +21,7 @@ function TableBody(props) {
                 <td>{row.job}</td>
                 <td>{row.id}</td>
                 <td>
-                    <button onClick={() => props.removeCharacter(index)}>Delete</button>
+                    <button onClick={() => props.removeCharacter(index, row.id)}>Delete</button>
                 </td>
             </tr>
             );
@@ -44,37 +44,3 @@ function Table(props) {
 }
 
 export default Table;
-
-
-/* Naive version of the Table
-function Table() {
-    return (
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Job</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Charlie</td>
-            <td>Janitor</td>
-          </tr>
-          <tr>
-            <td>Mac</td>
-            <td>Bouncer</td>
-          </tr>
-          <tr>
-            <td>Dee</td>
-            <td>Aspiring actress</td>
-          </tr>
-          <tr>
-            <td>Dennis</td>
-            <td>Bartender</td>
-          </tr>
-        </tbody>
-      </table>
-    );  
-}
-*/
