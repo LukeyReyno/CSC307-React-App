@@ -102,9 +102,15 @@ function findUserById(id) {
 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
+    userToAdd.id = idGen().toString();
     addUser(userToAdd);
-    res.status(201).end();
+    res.status(201).send(userToAdd);
 });
+
+function idGen() {
+    randomNum = Math.floor(Math.random() * 10000);
+    return randomNum;
+}
 
 function addUser(user) {
     users['users_list'].push(user);
