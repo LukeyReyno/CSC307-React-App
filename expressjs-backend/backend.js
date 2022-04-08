@@ -103,7 +103,7 @@ function findUserById(id) {
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
     addUser(userToAdd);
-    res.status(200).end();
+    res.status(201).end();
 });
 
 function addUser(user) {
@@ -116,7 +116,7 @@ app.delete('/users/:id', (req, res) => {
     if (result_array === undefined || result_array.length == 0)
         res.status(404).send('Resource not found.\n');
     else {
-        res.status(200).end();
+        res.status(204).end();
     }
 });
 
