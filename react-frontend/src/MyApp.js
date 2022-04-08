@@ -18,7 +18,19 @@ function MyApp() {
             return i !== index
         });
         setCharacters(updated);
-        axios.delete(`http://localhost:5000/users/${id}`)
+        deleteFromDB(id);
+    }
+
+    async function deleteFromDB(id) {
+        try {
+            const response = axios.delete(`http://localhost:5000/users/${id}`);
+            return response.data.users_list;
+         }
+         catch (error){
+            //We're not handling errors. Just logging into the console.
+            console.log(error);
+            return false;
+         }
     }
 
     async function fetchAll(){
