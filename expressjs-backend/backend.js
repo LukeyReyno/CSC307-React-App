@@ -16,45 +16,36 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
-app.get('/users', (req, res) => {
-    const name = req.query.name;
-    const job = req.query.job;
-    if (job != undefined && name != undefined){
-        let result = findUserByNameAndJob(job, name);
-        result = {users_list: result};
-        res.send(result);
-    }
-    else if (job != undefined){
-        let result = findUserByJob(job);
-        result = {users_list: result};
-        res.send(result);
-    }
-    else if (name != undefined){
-        let result = findUserByName(name);
-        result = {users_list: result};
-        res.send(result);
-    }
-    else{
-        res.send(users);
+
+app.get('/users', async (req, res) => {
+    const name = req.query['name'];
+    const job = req.query['job'];
+    try {
+        const result = await userServices.getUsers(name, job);
+        res.send({users_list: result});         
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('An error ocurred in the server.');
     }
 });
 
-app.get('/users/:id', (req, res) => {
-    const id = req.params['id']; //or req.params.id
-    let result = findUserById(id);
-    if (result === undefined || result.length == 0)
+app.get('/users/:id', async (req, res) => {
+    const id = req.params['id'];
+    const result = await userServices.findUserById(id);
+    if (result === undefined || result === null)
         res.status(404).send('Resource not found.');
     else {
-        result = {users_list: result};
-        res.send(result);
+        res.send({users_list: result});
     }
 });
 
-app.post('/users', (req, res) => {
-    const userToAdd = req.body;
-    userToAdd.id = idGen().toString();
-    addUser(userToAdd);
-    res.status(201).send(userToAdd);
+app.post('/users', async (req, res) => {
+    const user = req.body;
+    const savedUser = await userServices.addUser(user);
+    if (savedUser)
+        res.status(201).send(savedUser);
+    else
+        res.status(500).end();
 });
 
 app.delete('/users/:id', (req, res) => {
